@@ -1,6 +1,7 @@
 import { useState } from "react"
+import Error from "./Error"
 
-const Formulario = () => {
+const Formulario = ({ pacientes, setPacientes }) => {
    
    const [nombre, setNombre] = useState('')
    const [propietario, setPropietario] = useState('')
@@ -8,6 +9,48 @@ const Formulario = () => {
    const [alta, setAlta] = useState('')
    const [sintomas, setSintomas] = useState('')
 
+   const [error, setError] = useState(false)
+
+   const generarId = () => {
+    const random = Math.random().toString(36)
+    const fecha = Date.now().toString(36)
+
+    return random + fecha
+
+   }
+
+   const handleSubmit = (e) => {
+        e.preventDefault();
+
+        //validacion de formulario
+        if([nombre, propietario, email, alta, sintomas].includes("")){
+            console.log("Hay Al menos un campo vacio")
+            setError(true)
+            return; 
+        } 
+            setError(false)
+
+            const ObjetoPaciente = {
+                nombre,
+                propietario,
+                email,
+                alta,
+                sintomas,
+                id: generarId()
+            }
+            setPacientes([...pacientes, ObjetoPaciente])
+
+        //reiniciar formulaio
+        setNombre("")
+        setPropietario("")
+        setEmail("")
+        setAlta("")
+        setSintomas("")
+        
+        
+
+        
+   }
     return(
         <div className="md:w-1/2 lg:w-2/5">
          <h1 className="font-black text-3xl text-center">Seguimiento pacientes</h1>
@@ -16,8 +59,9 @@ const Formulario = () => {
          <span className="text-indigo-600 font-bold">administralos</span>
          </p>
         
-        <form className="bg-white shadow-md rounded-lg px-10 py-5">
+        <form className="bg-white shadow-md rounded-lg px-10 py-5" onSubmit={handleSubmit}>
             <div>
+                {error && <Error><p>Todos los campos son requeridos</p></Error>}
                 <label className="block text-gray-700 uppercase font-bold" htmlFor="Nombre">Nombre Mascota</label>
                 <input type="text" id="Nombre" placeholder="Nombre de mascota" className="border-2 w-full pt-2 mt-2 placeholder-gray-400 rounded-md" value={nombre} onChange={(e) => setNombre(e.target.value)}/>
             </div>
