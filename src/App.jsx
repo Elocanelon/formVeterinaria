@@ -1,7 +1,8 @@
 import Header from './components/Header'
 import Formulario from './components/Formulario'
-import ListadoPacientes from './components/Listado'
+import ListadoPacientes from './components/listado'
 import { useState } from 'react'
+
 
 
 function App() {
@@ -16,8 +17,10 @@ function App() {
     <div className='mt-12 md:flex'>
       <Formulario
       pacientes = {pacientes}
-      setPacientes={setPacientes} />
-      <ListadoPacientes 
+      setPacientes={setPacientes}
+      paciente = {paciente} 
+      setPaciente= {setPaciente}/>
+      <ListadoPacientes
       pacientes = {pacientes}
       setPaciente={setPaciente}/>
     </div>
